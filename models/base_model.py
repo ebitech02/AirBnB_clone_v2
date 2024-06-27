@@ -3,14 +3,15 @@
 import uuid
 import models
 from datetime import datetime
-from sqlaclchemy.ext.declarative import declarative_base
+from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy import Column, String, DateTime
 
 Base = declarative_base()
 
 
-class BaseModel:
+class BaseModel(Base):
     """A base class for all hbnb models"""
+    __abstract__ = True
     id = Column(String(60), nullable=False, primary_key=True)
     created_at = Column(DateTime, nullable=False, default=datetime.utcnow())
     updated_at = Column(DateTime, nullable=False, default=datetime.utcnow())
@@ -21,7 +22,7 @@ class BaseModel:
             if 'id' not in kwargs:
                 self.id = str(uuid.uuid4())
 
-            for key, value in kwards.item():
+            for key, value in kwargs.item():
                 if key == 'created_at' or key == 'updated_at':
                     value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
                 if key != '__class__':

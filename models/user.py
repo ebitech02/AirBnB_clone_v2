@@ -6,7 +6,7 @@ from models import models
 from sqlalchemy.orm import relationship
 
 
-class User(BaseModel):
+class User(BaseModel, Base):
     """This class defines a user by various attributes"""
     def __init__(self, *args, **kwargs):
         '''Initialize  user'''
