@@ -22,7 +22,7 @@ class BaseModel:
                 self.id = str(uuid.uuid4())
 
             for key, value in kwards.item():
-                if key == 'created_at' or key =='updated_at':
+                if key == 'created_at' or key == 'updated_at':
                     value = datetime.strptime(value, '%Y-%m-%dT%H:%M:%S.%f')
                 if key != '__class__':
                     setattr(self, key, value)
@@ -37,6 +37,7 @@ class BaseModel:
         """Returns a string representation of the instance"""
         return "[{}] ({}) {}".format(
             type(self).__name__, self.id, self.__dict__)
+
     def __repr__(self):
         ''' Represemnt a string'''
         return self.__str__()
@@ -50,16 +51,16 @@ class BaseModel:
     def delete(self):
         '''Delete current instance from the storage'''
         models.storage.delete(self)
-        
+
     def to_dict(self):
         """Convert instance into dict format and update new dictionary"""
-        new_dictionary = self.__dict__.copy()
+        new_dic = self.__dict__.copy()
         # update the created and updated at attributes
-        if "created_at" in new_dictionary:
-            new_dictionary["created_at"] = new_dictionary["created_at"].strftime(time)
-        if "updated_at" in new_dictionary:
-            new_dictionary["updated_at"] = new_dictionary["updated_at"].strftime(time)
-        new_dictionary["__class__"] = self.__class__.__name__
-        if "_sa_instance_state" in new_dictionary:
-            del new_dictionary["_sa_instance_state"]
-        return new_dictionary
+        if "created_at" in new_dic:
+            new_dic["created_at"] = new_dic["created_at"].strftime(time)
+        if "updated_at" in new_dic:
+            new_dic["updated_at"] = new_dic["updated_at"].strftime(time)
+        new_dic["__class__"] = self.__class__.__name__
+        if "_sa_instance_state" in new_dic:
+            del new_dic["_sa_instance_state"]
+        return new_dic
